@@ -9,3 +9,4 @@ export const cadastrarTipoProblema = (data) => api.post("/problemas", data);
 
 export const registrarOcorrencia = (data) => api.post("/ocorrencias", data);
 export const listarOcorrencias = () => api.get("/ocorrencias");
+export const Login = (data) => api.post("/login", data);
