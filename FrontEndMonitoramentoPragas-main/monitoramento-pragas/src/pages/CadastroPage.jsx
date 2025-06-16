@@ -15,6 +15,18 @@ const CadastroPage = () => {
         ...prev,
         [name]: value
       }));
+       setFormDataCult(prev => ({
+        ...prev,
+        [name]: value
+      }));
+       setFormDataPraga(prev => ({
+        ...prev,
+        [name]: value
+      }));
+       setFormDataDoen(prev => ({
+        ...prev,
+        [name]: value
+      }));
     };
 
   const [formDataProp, setFormDataProp] = useState({
@@ -56,46 +68,120 @@ const CadastroPage = () => {
     }
   };
 
+const [formDataDoenca, setFormDataDoen] = useState({
+      nome: '',
+      sintomas: '',
+      culturasAfetadas: '',
+      tratamentos: '',
+    });
+
   const handleSubmitDoencas = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      
+      console.log("cadastrando Doença..");
+      console.log("nome:", formDataDoenca.nome);
+      console.log("sintomas:", formDataDoenca.sintomas);
+      console.log("culturasAfetadas:", formDataDoenca.culturasAfetadas);
+      console.log("tratamentos:", formDataDoenca.tratamentos);
+
+      const culturasAfetadas = parseInt(formDataDoenca.culturasAfetadas, 10);
+
+      if (isNaN(culturasAfetadas)) {
+        alert("As culturas afetadas tem que tem um numero valido .");
+        return;
+      }
+
+      const response = await cadastrarTipoDoenca({
+              nome: formDataDoenca.nome,
+              sintomas: formDataDoenca.sintomas,
+              culturasAfetadas: formDataDoenca culturasAfetadas,
+              tratamentos: formDataDoenca.tratamentos
+            });
+
+      console.log(response);
       
     } catch (error) {
-     
+      console.log(error);
     } finally {
      
     }
   };
 
+
+  const [formDataPraga, setFormDataPraga] = useState({
+      nome: '',
+      nomeCientifico: '',
+      descricao: '',
+    });
   const handleSubmitPragas = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      
+      console.log("cadastrando Praga...");
+      console.log("nome:", formDataPraga.nome);
+      console.log("nomeCientifico:", formDataPraga.nomeCientifico);
+      console.log("descricao:", formDataPraga.descricao);
+
+        const response = await cadastrarTipoPraga({
+              nome: formDataProp.nome,
+              nomeCientifico: formDataProp.nomeCientifico,
+              descricao: formDataProp.descricao
+            });
+
+      console.log(response);
       
     } catch (error) {
-     
+      console.log(error);
     } finally {
      
     }
-  };
+  }
 
+
+  const [formDataCultura, setFormDataCult] = useState({
+      nome: '',
+      tempoCultivoDias: '',
+      epocaPlantio: '',
+    });
   const handleSubmitCultura = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    try {
-      
+      console.log("cadastrando Cultura...");
+      console.log("nome:", formDataCultura.nome);
+      console.log("tempoCultivoDias:", formDataCultura.tempoCultivoDias);
+      console.log("epocaPlantio:", formDataCultura.epocaPlantio);
+
+      const tempoCultivoDias = parseInt(formDataCultura.tempoCultivoDias, 10);
+
+      if (isNaN(tempoCultivoDias)) {
+        alert("Tamanho do tempo de cultivo deve ser um número válido.");
+        return;
+      }
+
+      const epocaPlantio = parseInt(formDataCultura.epocaPlantio, 10);
+
+      if (isNaN(epocaPlantio)) {
+        alert("O tempo de epoca de plantio deve ser um número válido.");
+        return;
+      }
+
+      const response = await cadastrarPropriedade({
+              nome: formDataProp.nome,
+              tamanhoHa: tamanhoHaInt,
+              responsavel: formDataProp.responsavel
+            });
+
+      console.log(response);
       
     } catch (error) {
-     
+      console.log(error);
     } finally {
      
     }
@@ -176,6 +262,7 @@ const CadastroPage = () => {
             </form>
           </section>
 
+
           {/* Card - Cultura */}
           <section className="bg-white rounded-lg p-6 shadow-md">
             <h2 className="text-xl font-semibold mb-4">Cadastrar Cultura</h2>
@@ -183,16 +270,28 @@ const CadastroPage = () => {
               <div className="flex gap-4 flex-wrap">
                 <input
                   type="text"
+                  name="nome"
+                  value={formDataCultura.nome}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Nome da cultura"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="tempoCultivoDias"
+                  value={formDataCultura.tempoCultivoDias}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Tempo de Cultivo em Dias"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="epocaPlantio"
+                  value={formDataCultura.epocaPlantio}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Epoca do plantio"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
@@ -212,21 +311,37 @@ const CadastroPage = () => {
               <div className="flex gap-4 flex-wrap">
                 <input
                   type="text"
+                  name="nome"
+                  value={formDataPraga.nome}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Nome da praga"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="nomeCientifico"
+                  value={formDataPraga.nomeCientifico}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Nome cientifico da praga"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="culturasAfetadas"
+                  value={formDataPraga.culturasAfetadas}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Culturas afetadas"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="descricao"
+                  value={formDataPraga.descricao}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Descrição"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
@@ -246,22 +361,38 @@ const CadastroPage = () => {
               <div className="flex gap-4 flex-wrap">
                 <input
                   type="text"
+                  name="nome"
+                  value={formDataDoenca.nome}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Nome da doença"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="sintomas"
+                  value={formDataDoenca.sintomas}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Sintoma da doença"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
+                  name="culturasAfetadas"
+                  value={formDataDoenca.nomeAfetadas}
+                  onChange={handleInputChange}
+                  required
                   placeholder="Culturas afetadas"
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <input
                   type="text"
                   placeholder="Tratamentos"
+                  name="tratamentos"
+                  value={formDataDoenca.tratamentos}
+                  onChange={handleInputChange}
+                  required
                   className="border border-gray-300 rounded px-4 py-2 w-72 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
                 />
                 <button 
