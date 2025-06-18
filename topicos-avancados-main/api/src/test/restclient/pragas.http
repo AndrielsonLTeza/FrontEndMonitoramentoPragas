@@ -1,0 +1,33 @@
+@URL=http://localhost:8080/pragas
+
+###Criar uma praga
+POST {{URL}}
+Content-Type: application/json
+
+{
+    "nome": "preguiça",
+    "nomeCientifico": "rafaela",
+    "culturasAfetadas":[2],
+    "descricao": "bla"
+}
+
+###Deletar uma praga
+#DELETE {{URL}}/1
+DELETE {{URL}}?id=1
+Content-Type: application/json
+
+###Editar uma praga
+PUT {{URL}}
+Content-Type: application/json
+
+{
+    "nome": "clebinho_pragas",
+    "nomeCientifico": "angelica",
+    "culturasAfetadas":[1],
+    "descricao": "bla"
+}
+
+###Receber uma praga
+
+GET {{URL}}?id=2
+Content-Type: application/json

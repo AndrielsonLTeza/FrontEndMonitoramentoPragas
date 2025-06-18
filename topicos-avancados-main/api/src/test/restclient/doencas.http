@@ -1,0 +1,33 @@
+@URL=http://localhost:8080/doencas
+
+###Criar uma doenca
+POST {{URL}}
+Content-Type: application/json
+
+{
+    "nome": "",
+    "sintomas": "rafaela",
+    "culturasAfetadas":[2,4, 5],
+    "tratamentos": "bla"
+}
+
+###Deletar uma doenca
+DELETE {{URL}}?id=1
+Content-Type: application/json
+
+###Editar uma doenca
+PUT {{URL}}
+Content-Type: application/json
+
+{
+    "id": 2,
+    "nome": "clebinho_doencas",
+    "sintomas": "angelica",
+    "culturasAfetadas":[2],
+    "tratamentos": "bla"
+}
+
+###Receber uma doenca
+
+GET {{URL}}
+Content-Type: application/json
